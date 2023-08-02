@@ -1,15 +1,14 @@
-import { TezosToolkit } from "@taquito/taquito";
 import { BeaconWallet } from "@taquito/beacon-wallet";
-import config from "../config";
+
 
 const preferredNetwork = "ghostnet";
 const options = {
-  name: "NFT",
+  name: "DAPP",
   iconUrl: "https://tezostaquito.io/img/favicon.png",
   preferredNetwork: preferredNetwork,
 };
-const rpcURL = "https://ghostnet.smartpy.io";
-const wallet = new BeaconWallet(options);
+export const rpcURL = "https://ghostnet.smartpy.io";
+export const wallet = new BeaconWallet(options);
 
 const getActiveAccount = async () => {
   return await wallet.client.getActiveAccount();
@@ -51,19 +50,7 @@ const checkIfWalletConnected = async (wallet) => {
   }
 };
 
-export const changeName = async (name) => {
-  // const wallet = new BeaconWallet(options);
-  const response = await checkIfWalletConnected(wallet);
 
-  if (response.success) {
-    const tezos = new TezosToolkit(rpcURL);
-    tezos.setWalletProvider(wallet);
-    const contract = await tezos.wallet.at(config.contractAddress);
-    const operation = await contract.methods.default(name).send();
-    const result = await operation.confirmation();
-    console.log(result);
-  }
-};
 
 export {
   connectWallet,
